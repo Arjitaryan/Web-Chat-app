@@ -1,0 +1,16 @@
+import React from "react";
+
+function Navbar(){
+    return (
+        <div className="navbar">
+            <span className="logo">Web Chat</span>
+            <div className="user">
+                <img src="https://plus.unsplash.com/premium_photo-1675130119373-61ada6685d63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHBlcnNvbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt=""/>
+                <span>John</span>
+                <button>logout</button>
+            </div>
+        </div>
+    );
+}
+
+export default Navbar;
