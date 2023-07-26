@@ -4,10 +4,13 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, storage, db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 function Register() {
 
     const [err, setErr] = useState(false);
+    const navigate= useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,36 +46,13 @@ function Register() {
                     photoURL: downloadURL,
                 });
 
+                await setDoc(doc(db, "userChats", res.user.uid), {});
+                navigate("/");
+
             }catch(err){
                 console.log(err);
                 setErr(true);
             };
-
-            
-
-            
-            // uploadTask.on(
-            //     (error) => {
-            //         setErr(true);
-            //         console.log(error);
-            //     },
-            //     () => {
-                    
-            //         getDownloadURL(uploadTask.snapshot.ref).then( async(downloadURL) => {
-            //             await updateProfile(res.user,{
-            //                 displayName,
-            //                 photoURL: downloadURL,
-            //             });
-
-            //             await setDoc(doc(db, "users", res.user.uid), {
-            //                 uid: res.user.uid,
-            //                 displayName,
-            //                 email,
-            //                 photoURL: downloadURL,
-            //             });
-            //         });
-            //     }
-            // );
 
         } catch (err) {
             console.log(err);
@@ -102,7 +82,7 @@ function Register() {
 
                 </form>
 
-                <p>Already have an account? Login</p>
+                <p>Already have an account? <Link to="/register">Login</Link></p>
             </div>
         </div>
     );
