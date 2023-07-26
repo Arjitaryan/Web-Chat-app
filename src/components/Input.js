@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Img from '../img/img.png';
 import Attach from '../img/attach.png';
 import { AuthContext } from "../context/AuthContext";
@@ -13,9 +13,23 @@ function Input(){
 
     const [text, setText]= useState("");
     const [img, setImg]= useState(null);
+    const [disable, setDisable]= useState(true);
 
     const {currentUser}= useContext(AuthContext);
     const {data}= useContext(ChatContext);
+
+
+    useEffect(() =>{
+        if(Object.keys(data.user).length === 0)
+        {
+            setDisable(true);
+        }
+        else
+        {
+            setDisable(false);
+        }
+
+    }, [data.user]);
 
 
     const handleSend = async() =>{
@@ -86,7 +100,7 @@ function Input(){
                 <label htmlFor="file">
                     <img src={Img} alt="" />
                 </label>
-                <button onClick={handleSend}>Send</button>
+                <button disabled={disable} onClick={handleSend}>Send</button>
             </div>
         </div>
     );
