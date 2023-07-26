@@ -10,9 +10,11 @@ import { Link } from "react-router-dom";
 function Register() {
 
     const [err, setErr] = useState(false);
+    const [loading, setLoading]= useState(false);
     const navigate= useNavigate();
 
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         const displayName = e.target[0].value;
         const email = e.target[1].value;
@@ -52,11 +54,13 @@ function Register() {
             }catch(err){
                 console.log(err);
                 setErr(true);
+                setLoading(false);
             };
 
         } catch (err) {
             console.log(err);
             setErr(true);
+            setLoading(false);
         }
 
     }
@@ -68,16 +72,17 @@ function Register() {
                 <span className="title">Register</span>
 
                 <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="display name" />
-                    <input type="email" placeholder="email" />
-                    <input type="password" placeholder="password" />
-                    <input style={{ display: "none" }} type="file" id="file" />
+                    <input required type="text" placeholder="display name" />
+                    <input required type="email" placeholder="email" />
+                    <input required type="password" placeholder="password" />
+                    <input required style={{ display: "none" }} type="file" id="file" />
                     <label htmlFor="file">
                         <img src={Add} />
                         <span>Add an avatar</span>
                     </label>
-                    <button>Sign Up</button>
+                    <button disabled={loading}>Sign Up</button>
 
+                    {loading && <span>Uploading and compressing the image..Please wait.."</span>}
                     {err && <span>Something went wrong</span>}
 
                 </form>
